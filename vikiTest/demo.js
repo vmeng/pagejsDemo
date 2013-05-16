@@ -1,0 +1,4 @@
+
+var applicationViewModel = function() {
+	
+}

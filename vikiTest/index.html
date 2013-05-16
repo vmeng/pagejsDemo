@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>viki test pagerjs</title>
+
+		<link rel="stylesheet" type="text/css" href="http://documentup.com/stylesheets/screen.css">
+
+		<script type="text/javascript" src="../lib/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+		<script type="text/javascript" src="../lib/underscore-1.4.4.js"></script>
+
+		<script type="text/javascript" src="../lib/jquery.ba-hashchange.min.js"></script>
+		<script type="text/javascript" src="../pager.js"></script>
+		<script type="text/javascript" src="demo.js"></script>
+
+	</head>
+	<body>
+		<div id="container">
+			<div id="nav" data-bind="page:{id:'nav'}">
+
+				<div id="header" data-bind="page:{id:'header'}">
+					<a  id="logo" data-bind="page-href: 'github' ">pagerjs</a>
+				</div>
+
+				<div class="extra" id="github" data-bind="page:{id:'github'}">
+					<a data-bind="page-href: 'githubIssues' ">Source on Github</a>
+				</div>
+
+				<div class="extra" id="github-issues" data-bind="page:{id:'githubIssues'}">
+					<a data-bind="page-href: github">Issues</a>
+				</div>
+
+			</div>
+			<div  data-bind="page:{id:'content'}">
+				<div id="test">test content</div>
+			</div>
+			
+			<div id="content" data-bind="page:{id:'deep_navigation'}">
+				<div data-bind="page:{id:'start'}">
+					<a href="#!/navigation/deep_navigation/second">show second Page</a>
+				</div>
+				<div data-bind="page:{id:'second'}">
+					<a href="#!/navigation/deep_navigation">back first Page</a>
+				</div>
+			</div>
+			
+		</div>
+	</body>
+</html>
+<script>
+	applicationVM = new applicationViewModel();
+	pager.extendWithPage(applicationVM);
+	ko.applyBindings(applicationVM, document.getElementById("nav"));
+	pager.start(); 
+</script>
