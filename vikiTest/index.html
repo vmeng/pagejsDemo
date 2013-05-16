@@ -13,54 +13,63 @@
 		<script type="text/javascript" src="../lib/jquery.ba-hashchange.min.js"></script>
 		<script type="text/javascript" src="../pager.js"></script>
 		<script type="text/javascript" src="demo.js"></script>
-
+		<style>
+			.cursor{cursor:pointer}
+		</style>
 	</head>
 	<body>
 		<div>
-			<div id="nav" data-bind="page:{id:'start'}">
-				<div data-bind="page: {id: 'start1'}">
-					<a  id="logo" href='#github'>go github</a>
-				</div>
+			<div data-bind="with:application">
+				<div id="nav" data-bind="page:{id:'start'}">
+					<h1>nav page</h1>
+					<div data-bind="page: {id: 'start1'}">
+						<a  id="logo" href='#!/github'>go github</a>
+					</div>
 
-				<div data-bind="page:{id:'github'}">
-					<a href='#githubIssues' >go Github issue</a>
-				</div>
-				<div  data-bind="page:{id:'start'}">
-					<a href= "#content">go Content</a>
-					<div data-bind="click:showContentDiv">go Content</div>
-				</div>
+					<div data-bind="page:{id:'github'}">
+						<a href='#githubIssues' >go Github issue</a>
+					</div>
+					<div  data-bind="page:{id:'start'}">
+						
+						<div data-bind="click:showContentDiv" class="cursor">
+							go Content
+						</div>
+					</div>
 
+				</div>
 			</div>
-			<div id="content" data-bind="page:{id:'content'}">
-				<div data-bind="page:{id:'start'}">
-					<h1>Start</h1>
-					<a data-bind="page-href:'../page1'">next</a>
-				</div>
-				<div data-bind="page:{id:'page1'}">
-					<h1>Page1</h1>
-					<a href="#content">back</a>
-					<a href="#../page2">next</a>
-				</div>
-				<div data-bind="page:{id:'page2'}">
-					<h1>Page2</h1>
-					<a href="#page1">back</a>
+			
+				<div id="content" data-bind="page:{id:'content'}">
+					<h1>content page</h1>
+					<div data-bind="with: explanation">
+					<div data-bind="page:{id:'start'}">
+						<h1>Start</h1>
+						<a data-bind="page-href:'../page1'">next</a>
+					</div>
+					<div data-bind="page:{id:'page1'}">
+						<h1>Page1</h1>
+						<a href="#content">back</a>
+						<a href="#../page2">next</a>
+					</div>
+					<div data-bind="page:{id:'page2'}">
+						<h1>Page2</h1>
+						<a href="#page1">back</a>
 
+					</div>
+					
+					<div data-bind="click:backToNav" class="cursor">back to nav</div>
 				</div>
-				<a href="#page1">go to page 1</a>
-				<a href="#page2">go to page 2</a>
 			</div>
 			<a href="">back to root</a>
 		</div>
 	</body>
 </html>
 <script>
-	applicationVM = new applicationViewModel();
-	pager.extendWithPage(applicationVM);
-	ko.applyBindings(applicationVM, document.getElementById("nav"));
+
+	
+	pager.extendWithPage(pagerViewModel);
+	ko.applyBindings(pagerViewModel);
 	pager.start();
 
-	explanationVM = new explanationViewModel();
-	pager.extendWithPage(explanationVM);
-	ko.applyBindings(explanationVM, document.getElementById("content"));
-	pager.start(); 
+
 </script>
