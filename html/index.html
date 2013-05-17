@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Demo of Pager.js</title>
+
+		<link rel="stylesheet" type="text/css" href="http://documentup.com/stylesheets/screen.css">
+
+		<script type="text/javascript" src="../lib/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../lib/jquery-ui.js"></script>
+		<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+		<script type="text/javascript" src="../lib/underscore-1.4.4.js"></script>
+
+		<script type="text/javascript" src="../lib/jquery.ba-hashchange.min.js"></script>
+		<script type="text/javascript" src="../pager.js"></script>
+		<style>
+            .cursor {
+                cursor: pointer
+            }
+		</style>
+	</head>
+	<body>
+		<div>
+			<div data-bind="with:page1" style="text-align:center">
+				<div id="nav" data-bind="page:{id:'start'}" style="width:100%">
+
+					<div  data-bind="page:{id:'start'}">
+						<h1 style="font-size:30px;"> Pager JS Navigation Demo with Mutil ViewModel </h1>
+						<div data-bind="click:showContentDiv" class="cursor">
+							Click to start
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div id="content" data-bind="page:{id:'content',showElement: showFry, hideElement: hideFry}" style="width:90%;margin-left:3%;">
+				<h4>This is content page</h4>
+				<div data-bind="with: page2">
+					<div data-bind="page:{id:'start',showElement: showFry, hideElement: hideFry}">
+						<h1>Start Page</h1>
+						<hr>
+						<a data-bind="page-href:'../page1'">next&gt;&gt;</a>
+					</div>
+					<div data-bind="page:{id:'page1'}">
+						<h1>Page1</h1>
+						<hr>
+						<a href="#content">&lt;&lt;back</a>
+						&nbsp;
+						<a href="#content/page2">next&gt;&gt;</a>
+					</div>
+					<div data-bind="page:{id:'page2',showElement: showFry, hideElement: hideFry}">
+						<h1>Page2</h1>
+						<hr>
+						<a href="#content/page1">&lt;&lt;back</a>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
+<script>
+var page1ViewModel = function() {
+	self = this;
+	
+	self.showContentDiv = function(data,event){
+		
+		location.href = "#content";
+	}
+}
+
+var page2ViewModel = function() {
+	self = this;
+	
+	self.segmentItemJson = ko.observableArray();
+	self.backToNav = function(){
+		location.href="";
+	}
+	self.backgroundImageUrl = function(data) {
+
+		var imageUrl = 'url(/assets/' + data.name + '.gif)';
+
+		return imageUrl;
+	}
+}
+
+var pagerViewModel = {
+	page1: new page1ViewModel(),
+	page2: new page2ViewModel()
+	
+}
+	// new default hide
+	pager.hideElement = function(page, callback) {
+		$(page.element).hide("drop", { direction: "right", duration: 1});
+		if (callback) {
+			callback();
+		}
+	};
+
+	// new default show
+	pager.showElement = function(page, callback) {
+		$(page.element).show("drop", { direction: "left", duration: 600});
+		if (callback) {
+			callback();
+		}
+	};
+
+	var showFry = function(page, callback) {
+		$(page.element).show("drop", { direction: "left", duration: 500}, callback);
+	};
+	var hideFry = function(page, callback) {
+		$(page.element).hide("drop", { direction: "right", duration: 1}, callback);
+	};
+	pager.extendWithPage(pagerViewModel);
+	ko.applyBindings(pagerViewModel);
+	pager.start();
+
+</script>
