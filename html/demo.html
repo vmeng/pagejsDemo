@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Demo of Pager.js</title>
+
+		<link rel="stylesheet" type="text/css" href="http://documentup.com/stylesheets/screen.css">
+
+		<script type="text/javascript" src="../lib/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="../lib/knockout-2.1.0.js"></script>
+		<script type="text/javascript" src="../lib/underscore-1.4.4.js"></script>
+		<script type="text/javascript" src="../pager.js"></script>
+		<style>
+            .cursor {
+                cursor: pointer
+            }
+		</style>
+	</head>
+	<body style="padding:30px;">
+		<div>
+
+			<div  data-bind="page:{id:'start'}">
+				<a href="#content">go to content</a>
+				<h1 style="font-size:30px;"> Index Page </h1>
+				
+			</div>
+
+			<div  data-bind="page:{id:'content'}">
+				<a href="#start">go to start</a>
+				<h1 style="font-size:30px;"> Content Page </h1>
+			</div>
+
+		</div>
+	</body>
+</html>
+<script>
+	$(document).ready(function() {
+	var viewModel = {};
+	pager.extendWithPage(viewModel);
+	ko.applyBindings(viewModel);
+	pager.start();
+  });
+</script>
